@@ -9,4 +9,9 @@ class User < ApplicationRecord
     has_secure_password #ひらぶんで保存しない　復号できない
     validates :password, presence: true, length: { minimum: 6 }
     #モデル同士を繋げる　　関連テーブル　リレーション！
+
+    def User.digest(string)
+        cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
+        BCrypt::Password.create(string, cost: cost)
+    end
 end
